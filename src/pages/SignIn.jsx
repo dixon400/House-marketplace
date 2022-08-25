@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword} from 'firebase/auth'
+import { toast } from "react-toastify";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
 
@@ -13,23 +14,23 @@ function SignIn() {
   const { email, password } = formData;
   const navigate = useNavigate();
   const onChange = (e) => {
-    setFormData((prevState)=>({
+    setFormData((prevState) => ({
       ...prevState,
-      [e.target.id]: e.target.value 
-    }))
+      [e.target.id]: e.target.value,
+    }));
   };
 
-  const onSubmit = async (e) =>{
+  const onSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const auth = getAuth();
       const userCred = await signInWithEmailAndPassword(auth, email, password);
-      if(userCred.user){
-        navigate('/')
+      if (userCred.user) {
+        navigate("/");
       }
     } catch (error) {
-      console.log(error);
+      toast.error('Error logging In');
     }
   };
 
@@ -67,19 +68,19 @@ function SignIn() {
               }}
             />
           </div>
-          <Link to='/forgot-password' className='forgotPassWordLink'>Forgot Password</Link>
+          <Link to="/forgot-password" className="forgotPassWordLink">
+            Forgot Password
+          </Link>
           <div className="signInBar">
-            <p className="signInText">
-              Sign In
-            </p>
+            <p className="signInText">Sign In</p>
             <button className="signInButton">
-              <ArrowRightIcon fill="#ffffff" width='34px' height='34px'/>
+              <ArrowRightIcon fill="#ffffff" width="34px" height="34px" />
             </button>
           </div>
         </form>
 
         {/* Google Oauth */}
-        <Link to='/sign-up' className="registerLink">
+        <Link to="/sign-up" className="registerLink">
           SignUp
         </Link>
       </div>
